@@ -53,6 +53,10 @@ $(document).ready(function(){
 });
 
 function headerBGchange(){
+	if ($('.service').length === 0) {
+        return; 
+    }
+	
 	var $header = $('header'); //헤더를 변수에 넣기
 	var $page = $('.black_section'); //색상이 변할 부분
 	var $window = $(window);
