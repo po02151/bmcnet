@@ -476,70 +476,266 @@ function main_dotdotdot(){
 // -------------------------------풀페이지-----------------------------------
 
 function fullset(){
-    var pageindex = $("#fullpage > .fullsection").size(); // fullpage 안에 섹션이 몇개인지 확인하기
+    var pageindex = $("#fullpage > .fullsection").size(); 
     for(var i=1; i<=pageindex; i++){
         var li = "<li class=pageIndex" + i + "></li>";
         $("#fullpage > .quick > ul").append(li);
     }
-    $("#fullpage .quick ul :first-child").addClass("on"); // 로드 시 1번째 버튼에 불 들어오게
+    $("#fullpage .quick ul :first-child").addClass("on"); 
     
     // -----------------------------------------------------------------
-    // [수정된 마우스 휠 이벤트] 콘솔 오류 원인을 해결한 코드입니다.
+    // [개선] 0번째 인덱스(첫 페이지)부터 높이 계산이 정확히 되도록 수정된 함수
     // -----------------------------------------------------------------
-    window.addEventListener("mousewheel", function(event){
-        // jQuery 호환성을 위해 이벤트 객체를 래핑합니다.
-        var jQueryEvent = $.Event("mousewheel", { originalEvent: event });
-        var page = $(".quick ul li.on");
+    function moveToPage(targetIndex, speed) {
+        var duration = (speed === undefined) ? 1000 : speed; // 리사이즈 시에는 0초로 즉시 이동하기 위함
+        var pagelength = 0;
         
-        // 애니메이션 중일 때 휠 작동 막기
-        if($("body").find("#fullpage:animated").length >= 1) {
-            event.preventDefault(); // 브라우저 에러 없이 안전하게 스크롤을 방지합니다.
+        // targetIndex 직전 페이지들까지의 높이를 누적 합산
+        for(var i=0; i<targetIndex; i++) {
+            pagelength += $(".full" + (i + 1)).height();
+        }
+        
+        $("#fullpage").stop().animate({"top": -pagelength + "px"}, duration, "swing");
+        showTopBtn();
+    }
+
+    // [1] PC 마우스 휠 이벤트
+    window.addEventListener("mousewheel", function(event){
+        var page = $(".quick ul li.on");
+        var currentIndex = page.index();
+        
+        if($("#fullpage").is(":animated")) {
+            event.preventDefault();
             return false;
         }
         
-        // 마우스 휠을 위로
-        if(jQueryEvent.originalEvent.wheelDelta >= 0) {
-            var before = page.index();
-            if(page.index() >= 0) page.prev().addClass("on").siblings(".on").removeClass("on"); // 퀵버튼 옮기기
-            var pagelength = 0;
-            for(var i=1; i<(before); i++) {
-                pagelength += $(".full"+i).height();
+        if(event.wheelDelta >= 0) { // 휠 위로
+            if(currentIndex > 0){ 
+                page.prev().addClass("on").siblings(".on").removeClass("on");
+                moveToPage(currentIndex - 1);
             }
-            if(page.index() > 0){ // 첫번째 페이지가 아닐 때
-                page = page.index()-1;
-                $("#fullpage").animate({"top": -pagelength + "px"}, 1000, "swing");
-            }
-            showTopBtn();
-    
-        } else { // 마우스 휠을 아래로    
-            var nextPage = parseInt(page.index()+1); // 다음 페이지 번호
-            var lastPageNum = parseInt($(".quick ul li").size()); // 마지막 페이지 번호
-            
-            if(page.index() <= $(".quick ul li").size()-1){ 
+        } else { // 휠 아래로    
+            var lastPageNum = $(".quick ul li").size(); 
+            if(currentIndex < lastPageNum - 1){ 
                 page.next().addClass("on").siblings(".on").removeClass("on");
+                moveToPage(currentIndex + 1);
             }
-            
-            if(nextPage < lastPageNum){ // 마지막 페이지가 아닐 때만 animate
-                var pagelength = 0;
-                for(var i = 1; i<(nextPage+1); i++){ 
-                    pagelength += $(".full"+i).height();
-                }
-                $("#fullpage").animate({"top": -pagelength + "px"}, 1000, "swing");
-            }
-            showTopBtn();
         }
-    }, { passive: false }); // 👈 이 옵션 덕분에 preventDefault()를 써도 에러가 나지 않습니다.
+    }, { passive: false });
+
+    // [2] 모바일 터치 이벤트 (동작 신뢰도 최적화)
+    var touchStartY = 0;
+    var touchEndY = 0;
+
+    window.addEventListener("touchstart", function(event) {
+        touchStartY = event.touches[0].clientY; 
+    }, { passive: true });
+
+    window.addEventListener("touchmove", function(event) {
+        // 이동 중이거나 풀페이지 애니메이션 중일 때는 모바일 기본 스크롤 강제 차단
+        if($("#fullpage").is(":animated")) {
+            event.preventDefault();
+        }
+    }, { passive: false });
+
+    window.addEventListener("touchend", function(event) {
+        touchEndY = event.changedTouches[0].clientY; 
+        
+        if($("#fullpage").is(":animated")) return false;
+
+        var page = $(".quick ul li.on");
+        var currentIndex = page.index();
+        var lastPageNum = $(".quick ul li").size();
+
+        var distanceY = touchStartY - touchEndY;
+
+        if (distanceY > 50) { // 아래로 스크롤 (다음 페이지)
+            if (currentIndex < lastPageNum - 1) {
+                page.next().addClass("on").siblings(".on").removeClass("on");
+                moveToPage(currentIndex + 1);
+            }
+        } else if (distanceY < -50) { // 위로 스크롤 (이전 페이지)
+            if (currentIndex > 0) {
+                page.prev().addClass("on").siblings(".on").removeClass("on");
+                moveToPage(currentIndex - 1);
+            }
+        }
+    }, { passive: true });
+
     // -----------------------------------------------------------------
+    // [3] 모바일 주소창 장난질 방지 + 리사이즈 최적화 대응
+    // -----------------------------------------------------------------
+    var lastWidth = $(window).width(); // 가로 폭 변화만 감지하기 위한 변수
 
     $(window).resize(function(){ 
-        var resizeindex = $(".quick ul li.on").index()+1;
-        var pagelength = 0;
-        for(var i = 1; i<resizeindex; i++){ 
-            pagelength += $(".full"+i).height();
+        var currentWidth = $(window).width();
+        
+        // 모바일 스크롤 시 주소창 때문에 세로 높이만 바뀌는 경우는 리사이즈 반응을 무시합니다.
+        // 오직 PC 브라우저 창 크기를 조절하거나, 모바일 화면을 가로로 회전(수평 전환)했을 때만 작동!
+        if (currentWidth !== lastWidth) {
+            lastWidth = currentWidth; // 너비 값 업데이트
+            
+            var resizeindex = $(".quick ul li.on").index();
+            // 리사이즈 시 딜레이 없이 0초 만에 해당 자리를 잡도록 처리
+            moveToPage(resizeindex, 0); 
         }
-        $("#fullpage").animate({"top": -pagelength + "px"}, 0);
     });
 }
+// function fullset(){
+//     var pageindex = $("#fullpage > .fullsection").size(); 
+//     for(var i=1; i<=pageindex; i++){
+//         var li = "<li class=pageIndex" + i + "></li>";
+//         $("#fullpage > .quick > ul").append(li);
+//     }
+//     $("#fullpage .quick ul :first-child").addClass("on"); 
+    
+//     // 페이지 이동 공통 함수 (휠, 터치, 리사이즈에서 공용으로 사용)
+//     function moveToPage(targetIndex) {
+//         var pagelength = 0;
+//         for(var i=1; i<=targetIndex; i++) {
+//             pagelength += $(".full"+i).height();
+//         }
+//         $("#fullpage").animate({"top": -pagelength + "px"}, 1000, "swing");
+//         showTopBtn();
+//     }
+
+//     // [1] PC 마우스 휠 이벤트
+//     window.addEventListener("mousewheel", function(event){
+//         var page = $(".quick ul li.on");
+//         var currentIndex = page.index();
+        
+//         if($("body").find("#fullpage:animated").length >= 1) {
+//             event.preventDefault();
+//             return false;
+//         }
+        
+//         if(event.wheelDelta >= 0) { // 휠 위로
+//             if(currentIndex > 0){ 
+//                 page.prev().addClass("on").siblings(".on").removeClass("on");
+//                 moveToPage(currentIndex - 1);
+//             }
+//         } else { // 휠 아래로    
+//             var lastPageNum = $(".quick ul li").size(); 
+//             if(currentIndex < lastPageNum - 1){ 
+//                 page.next().addClass("on").siblings(".on").removeClass("on");
+//                 moveToPage(currentIndex + 1);
+//             }
+//         }
+//     }, { passive: false });
+
+//     // -----------------------------------------------------------------
+//     // [2] 모바일 터치 이벤트 추가 (이 부분이 없어서 모바일 스크롤이 안 됐던 것입니다!)
+//     // -----------------------------------------------------------------
+//     var touchStartY = 0;
+//     var touchEndY = 0;
+
+//     window.addEventListener("touchstart", function(event) {
+//         touchStartY = event.touches[0].clientY; // 터치 시작 지점 Y좌표 저장
+//     }, { passive: true });
+
+//     window.addEventListener("touchmove", function(event) {
+//         // fullpage 가 굴러가는 중에는 화면이 튀지 않게 모바일 터치 스크롤 기본 동작을 막음
+//         if($("body").find("#fullpage:animated").length >= 1) {
+//             event.preventDefault();
+//         }
+//     }, { passive: false });
+
+//     window.addEventListener("touchend", function(event) {
+//         touchEndY = event.changedTouches[0].clientY; // 터치 끝난 지점 Y좌표 저장
+        
+//         if($("body").find("#fullpage:animated").length >= 1) return false;
+
+//         var page = $(".quick ul li.on");
+//         var currentIndex = page.index();
+//         var lastPageNum = $(".quick ul li").size();
+
+//         // 터치 이동 거리 계산 (최소 50px 이상 쓸었을 때만 작동하게 설정)
+//         var distanceY = touchStartY - touchEndY;
+
+//         if (distanceY > 50) { // 🚨 아래로 스크롤 (손가락을 위로 쓸어 올림 -> 다음 페이지)
+//             if (currentIndex < lastPageNum - 1) {
+//                 page.next().addClass("on").siblings(".on").removeClass("on");
+//                 moveToPage(currentIndex + 1);
+//             }
+//         } else if (distanceY < -50) { // 🚨 위로 스크롤 (손가락을 아래로 쓸어 내림 -> 이전 페이지)
+//             if (currentIndex > 0) {
+//                 page.prev().addClass("on").siblings(".on").removeClass("on");
+//                 moveToPage(currentIndex - 1);
+//             }
+//         }
+//     }, { passive: true });
+//     // -----------------------------------------------------------------
+
+//     $(window).resize(function(){ 
+//         var resizeindex = $(".quick ul li.on").index();
+//         moveToPage(resizeindex);
+//     });
+// }
+// function fullset(){
+//     var pageindex = $("#fullpage > .fullsection").size(); // fullpage 안에 섹션이 몇개인지 확인하기
+//     for(var i=1; i<=pageindex; i++){
+//         var li = "<li class=pageIndex" + i + "></li>";
+//         $("#fullpage > .quick > ul").append(li);
+//     }
+//     $("#fullpage .quick ul :first-child").addClass("on"); // 로드 시 1번째 버튼에 불 들어오게
+    
+//     // -----------------------------------------------------------------
+//     // [수정된 마우스 휠 이벤트] 콘솔 오류 원인을 해결한 코드입니다.
+//     // -----------------------------------------------------------------
+//     window.addEventListener("mousewheel", function(event){
+//         // jQuery 호환성을 위해 이벤트 객체를 래핑합니다.
+//         var jQueryEvent = $.Event("mousewheel", { originalEvent: event });
+//         var page = $(".quick ul li.on");
+        
+//         // 애니메이션 중일 때 휠 작동 막기
+//         if($("body").find("#fullpage:animated").length >= 1) {
+//             event.preventDefault(); // 브라우저 에러 없이 안전하게 스크롤을 방지합니다.
+//             return false;
+//         }
+        
+//         // 마우스 휠을 위로
+//         if(jQueryEvent.originalEvent.wheelDelta >= 0) {
+//             var before = page.index();
+//             if(page.index() >= 0) page.prev().addClass("on").siblings(".on").removeClass("on"); // 퀵버튼 옮기기
+//             var pagelength = 0;
+//             for(var i=1; i<(before); i++) {
+//                 pagelength += $(".full"+i).height();
+//             }
+//             if(page.index() > 0){ // 첫번째 페이지가 아닐 때
+//                 page = page.index()-1;
+//                 $("#fullpage").animate({"top": -pagelength + "px"}, 1000, "swing");
+//             }
+//             showTopBtn();
+    
+//         } else { // 마우스 휠을 아래로    
+//             var nextPage = parseInt(page.index()+1); // 다음 페이지 번호
+//             var lastPageNum = parseInt($(".quick ul li").size()); // 마지막 페이지 번호
+            
+//             if(page.index() <= $(".quick ul li").size()-1){ 
+//                 page.next().addClass("on").siblings(".on").removeClass("on");
+//             }
+            
+//             if(nextPage < lastPageNum){ // 마지막 페이지가 아닐 때만 animate
+//                 var pagelength = 0;
+//                 for(var i = 1; i<(nextPage+1); i++){ 
+//                     pagelength += $(".full"+i).height();
+//                 }
+//                 $("#fullpage").animate({"top": -pagelength + "px"}, 1000, "swing");
+//             }
+//             showTopBtn();
+//         }
+//     }, { passive: false }); // 👈 이 옵션 덕분에 preventDefault()를 써도 에러가 나지 않습니다.
+//     // -----------------------------------------------------------------
+
+//     $(window).resize(function(){ 
+//         var resizeindex = $(".quick ul li.on").index()+1;
+//         var pagelength = 0;
+//         for(var i = 1; i<resizeindex; i++){ 
+//             pagelength += $(".full"+i).height();
+//         }
+//         $("#fullpage").animate({"top": -pagelength + "px"}, 0);
+//     });
+// }
 // function fullset(){
 // 	var pageindex = $("#fullpage > .fullsection").size(); //fullpage 안에 섹션이(.fullsection) 몇개인지 확인하기
 // 	for(var i=1;i<=pageindex;i++){

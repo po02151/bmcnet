@@ -1,0 +1,580 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="format-detection" content="telephone=no, address=no, email=no">
+    <title>BMC</title>
+    <script src="https://code.jquery.com/jquery-latest.min.js"></script>
+    <!-- <script src="../common/js/jquery.mCustomScrollbar.concat.min.js"></script> -->
+	<script src="common/js/wow.js"></script>
+    <script src="common/js/common.js"></script>
+    <script src="common/js/jquery.dotdotdot.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery-easing/1.4.1/jquery.easing.min.js"></script>
+    <script type="text/javascript" src="//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.min.js"></script>
+    <!-- <link rel="stylesheet" href="../common/css/jquery.mCustomScrollbar.min.css"> -->
+    <link rel="stylesheet" href="common/css/animate.css">
+    <link rel="stylesheet" type="text/css" href="dist/jquery.fullpage.min.css" />
+    <link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.css"/>
+    <link rel="stylesheet" href="common/css/main_import.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/xeicon@2.3.3/xeicon.min.css">
+</head>
+<body>
+    <div id="wrap">
+        <header>
+            <div>
+                <h1>
+                    <a href="index.html">
+                        logo
+                    </a>
+                </h1>
+                
+                <button class="hamburger">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </button>
+                <nav>
+                    <ul>
+                        <li>
+                            <a href="html/aboutUs.html"><span>회사 소개</span></a>
+                        </li>
+                        <li>
+                            <a href="html/service_website.html" class="disableLink disableLink1"><span>서비스<span><img src="images/header_subArrow.png" alt="arrow"></span></span></a>
+                            <ul class="sub_menu">
+                                <li>
+                                    <a href="html/service_website.html">웹사이트 제작</a>
+                                </li>
+                                <li>
+                                    <a href="html/service_catalog.html">전자 카탈로그</a>
+                                </li>
+                                <li>
+                                    <a href="html/service_package.html">CI/BI · 패키지</a>
+                                </li>
+                                <li>
+                                    <a href="html/service_3dModeling.html">웹.3D 모델링</a>
+                                </li>
+                            </ul>
+                        </li>
+                        <li>
+                            <a href="html/blog.html"><span>블로그</span></a>
+                        </li>
+                        <li>
+                            <a href="html/portfolio.html">포트폴리오</a>
+                        </li>
+                        <li>
+                            <a href="html/contactUs.html">문의하기</a>
+                        </li>
+                    </ul>
+                </nav>
+                <div class="rightBox">
+                    <a href="html/government_support.html">정부지원사업 안내</a>
+                    <div class="langBox">
+                        <button class="langBtn_ko active">KO</button>
+                        <button class="langBtn_en">EN</button>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <div class="topBtnWrap">
+            <a href="javascript:;" class="topBtn hidden"></a>    
+        </div>
+        
+        <div class="main_popUp">
+            <div class="top">
+                <img src="images/main_popUp.png" alt="popup">
+                <a href="">무료상담 신청하기</a>
+            </div>
+            <div class="bottom">
+                <div>
+                    <input type="checkbox" name="" id="main_popUp">
+                    <label for="main_popUp">오늘 하루 열지 않음</label>
+                </div>
+                <button class="main_popUp_close">닫기</button>
+            </div>
+        </div>
+        <!-- active 클래스 부여시 팝업 open -->
+        
+
+        <div id="fullpage">
+            <!-- dots -->
+            <div class='quick'>
+                <ul>
+                </ul>
+            </div>
+            <!-- dots Fin -->
+            <div class="section fullsection full1" id="section1">
+                <div class="section_1">
+                    <div class="video_wrap">
+                        <div class="main_wrap">
+                            <div>
+                                <h2>
+                                    <span>정부지원 사업 신청하고</span>
+                                    <span>부담없이 콘텐츠 제작하기</span>
+                                </h2>
+                                <p>
+                                    <span>비엠씨 서비스에 대해 궁금한 내용이 있으시다면 지금바로 문의주세요.</span>
+                                    <span>자세한 안내와 수출관련 실무 컨설팅 · 무료 견적 서비스를 지원합니다.</span>
+                                </p>
+                                <a href="html/contactUs.html" class="bgBtn">무료상담 신청하기</a>
+                            </div>
+                        </div>
+                        <div class="visual_video">
+                            <div class="videoBG">
+                                <div class="videoBG_width">
+                                    <div class="videoBG_aspect">
+                                        <div class="videoBG_make_height">
+                                            <div class="videoBG_hide_controls">
+                                                <video src="video/main_bg.mp4" autoplay muted loop playsinline></video>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        
+                        <div class="mo_videoBox">
+                            <div class="video">
+                                <video src="video/main_bg_mo.mp4" autoplay muted loop playsinline></video>
+                            </div>
+                        </div>
+                        
+                        
+                        <div class="scrollDownBox active">
+                            <div>
+                                <span></span>
+                            </div>
+                            <span>scroll</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- 1page Fin -->
+
+            <div class="section fullsection full2" id="section2" pageNum="2">
+                <div class="section_2">
+                    <div class="left">
+                        <div>
+                            <h3>
+                                <span>초경량 웹.3D 모델링</span>
+                                <span>웹사이트 제작 서비스</span>
+                            </h3>
+                            <div class="txtBox">
+                                <p>홈페이지는 24시간 쉬지않고 일하는 디지털 영업사원입니다.
+                                    잘 만든 기업의 웹사이트는 방문자에게 좋은 이미지를 남기며,
+                                    이는 제품과 구성원에 대한 신뢰로 이어집니다.</p>
+                                <p>단순한 정보만 표시되는 기존 방식과는 달리, 사용자와
+                                    상호작용하는 사용자 경험을 바탕으로 좋은 결과를 이끌어 냅니다.</p>
+                            </div>
+                            <div class="btnBox">
+                                <a href="" class="circleBtn"><img src="images/main_plusBtn.png" alt="plus button"></a>
+                                <a href="" class="borderBtn">제작문의 하러가기</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="right">
+                        <div class="mobile_dots">
+                            <div class="numbBox">
+                                <span>01</span>
+                                <span></span>
+                                <span>06</span>
+                            </div>
+                            <div class="scrollDownBox">
+                                <span></span>
+                            </div>
+                        </div>
+                        <div class="videoBox">
+                            <div class="video">
+                                <video src="video/bmc_1.mp4" autoplay muted loop playsinline></video>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- 2page Fin -->
+            <div class="section fullsection full3" id="section3" pageNum="3">
+                <div class="section_3">
+                    <div class="left">
+                        <div>
+                            <h3>
+                                <span>웹.3D 모델링 연동</span>
+                                <span>전자 카탈로그</span>
+                            </h3>
+                            <div class="txtBox">
+                                <p>
+                                    <span>
+                                        효과적인 디지털 마케팅이 고민이신 예비 창업자, 중소기업
+                                        대표님이라면 전자 카탈로그를 영업 전략에 활용해 보세요.
+                                    </span>
+                                    웹.3D 모델링을 활용한 다채로운 형태의 전자 카탈로그를 제작하여
+                                    타사와는 차별화된 방식으로 고객에게 어필할 수 있습니다.</p>
+                            </div>
+                            <div class="btnBox">
+                                <a href="" class="circleBtn"><img src="images/main_plusBtn.png" alt="plus button"></a>
+                                <a href="" class="borderBtn">제작문의 하러가기</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="right">
+                        <div class="mobile_dots">
+                            <div class="numbBox">
+                                <span>02</span>
+                                <span></span>
+                                <span>06</span>
+                            </div>
+                            <div class="scrollDownBox">
+                                <span></span>
+                            </div>
+                        </div>
+                        <div class="videoBox">
+                            <div class="video">
+                                <video src="video/bmc_2.mp4" autoplay muted loop playsinline></video>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="section fullsection full4" id="section4" pageNum="4">
+                <div class="section_4">
+                    <div class="left">
+                        <div>
+                            <h3>
+                                <span>웹.3D 모델링</span>
+                                <span>변환 서비스</span>
+                            </h3>
+                            <div class="txtBox">
+                                <p>제품 사진, AutoCAD 도면, 3D 파일을 웹.3D 모델링으로 변환하여
+                                    별도의 프로그램 설치 및 라이선스 없이 홈페이지와 전자 카탈로그에
+                                    연동하여 차별화로 경쟁에서 앞서 나가세요.</p>
+                            </div>
+                            <div class="btnBox">
+                                <a href="" class="circleBtn"><img src="images/main_plusBtn.png" alt="plus button"></a>
+                                <a href="" class="borderBtn">ALINK3D 바로가기</a>
+                            </div>
+                            <div class="noteBox">
+                                <p><span>*</span>(주)비엠씨의 특허기술로써 기존 홈페이지에 모듈만 적용할 수 있습니다.</p>
+                                <p><span>*</span>ALINK3D는 (주)비엠씨의 브랜드 입니다.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="right">
+                        <div class="mobile_dots">
+                            <div class="numbBox">
+                                <span>03</span>
+                                <span></span>
+                                <span>06</span>
+                            </div>
+                            <div class="scrollDownBox">
+                                <span></span>
+                            </div>
+                        </div>
+                        <div class="videoBox">
+                            <div class="video">
+                                <video src="video/bmc_3.mp4" autoplay muted loop playsinline></video>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="section fullsection full5" id="section5" pageNum="5">
+                <div class="section_5">
+                    <div class="left">
+                        <div>
+                            <h3>
+                                <span>웹.3D 모델링</span>
+                                <span>데모 사이트 체험</span>
+                            </h3>
+                            <div class="txtBox">
+                                <p>
+                                    <span>웹.3D 모델링이 적용된 사이트를 체험해 보세요.</span>
+                                    아래 'Go'버튼을 눌러 사이트에 접속한 후 '제품소개'를 클릭하면
+                                    자사 특허기술로 제작한 웹.3D 모델링을 확인하실 수 있습니다.</p>
+                                <p>
+                                    <span>* 데모 사이트는 계속 업데이트 될 예정입니다.</span>
+                                    <span>* 더 자세한 안내가 필요하시다면 상담을 신청해 주세요.</span>
+                                </p>
+                            </div>
+                            <div class="btnBox">
+                                <a href="" class="circleBtn">GO</a>
+                                <a href="" class="borderBtn">상담 신청하기</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="right">
+                        <div class="mobile_dots">
+                            <div class="numbBox">
+                                <span>04</span>
+                                <span></span>
+                                <span>06</span>
+                            </div>
+                            <div class="scrollDownBox">
+                                <span></span>
+                            </div>
+                        </div>
+                        <div class="videoBox">
+                            <div class="video">
+                                <video src="video/bmc_4.mp4" autoplay muted loop playsinline></video>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="section fullsection full6" id="section6" pageNum="6">
+                <div class="section_6">
+                    <div class="left">
+                        <div>
+                            <h3>
+                                <span>ALINK3D IoT</span>
+                                <span>CCTV 연동 체험</span>
+                            </h3>
+                            <div class="txtBox">
+                                <p>웹.3D 모델링의 실물객체에 카메라를 연동시켜
+                                    3D 모델링 상에서 영상과 위치를 표시합니다.
+                                    더 나아가 GPS 위치 정보를 활용하여
+                                    객체간 거리 정보까지 출력이 가능합니다.</p>
+                            </div>
+                            <div class="btnBox">
+                                <a href="" class="circleBtn">GO</a>
+                                <a href="" class="borderBtn">상담 신청하기</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="right">
+                        <div class="mobile_dots">
+                            <div class="numbBox">
+                                <span>05</span>
+                                <span></span>
+                                <span>06</span>
+                            </div>
+                            <div class="scrollDownBox">
+                                <span></span>
+                            </div>
+                        </div>
+                        <div class="videoBox">
+                            <div class="video">
+                                <video src="video/bmc_5.mp4" autoplay muted loop playsinline></video>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="section fullsection full7" id="section7" pageNum="7">
+                <div class="section_7">
+                    <div class="left">
+                        <div>
+                            <h3>
+                                <span>정부지원사업</span>
+                                <span>수출바우처 수행기업</span>
+                            </h3>
+                            <div class="txtBox">
+                                <p>
+                                    <span>비용 걱정때문에 홈페이지, 카탈로그 제작 등이 망설여졌다면
+                                        정부로부터 지원을 받아 부담없이 콘텐츠를 제작해 보세요.
+                                    </span>
+                                    <span>더 자세한 사항이 궁금하시다면 플러스 버튼을 눌러</span>
+                                    <span>정부지원사업에 대해 알아보신 후 상담을 신청하여 </span>
+                                    수출관련 실무 컨설팅을 받아보세요!</p>
+                            </div>
+                            <div class="btnBox">
+                                <a href="" class="circleBtn"><img src="images/main_plusBtn.png" alt="plus button"></a>
+                                <a href="" class="borderBtn">상담 신청하기</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="right">
+                        <div class="mobile_dots">
+                            <div class="numbBox">
+                                <span>06</span>
+                                <span></span>
+                                <span>06</span>
+                            </div>
+                            <div class="scrollDownBox">
+                                <span></span>
+                            </div>
+                        </div>
+                        <div class="videoBox">
+                            <div class="video">
+                                <video src="video/bmc_6.mp4" autoplay muted loop playsinline></video>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="section fullsection full8" id="section8" pageNum="8">
+                <div class="section_8">
+                    <div>
+                        <div>
+                            <h3>BLOG</h3>
+                            <p>
+                                <span>(주)비엠씨의 새로운 소식을</span>
+                                확인해 보세요.
+                            </p>
+                            <a href="" class="circleBtn"><img src="images/main_plusBtn.png" alt="plus button"></a>
+                        </div>
+                        <div>
+
+                            <ul class="main_slide">
+                                <li class="slide_1">
+                                    <figure>
+                                        <img src="images/main_blog_thumb1.png" alt="blog">
+                                        <figcaption>
+                                            <dl>
+                                                <dt>#주요태그</dt>
+                                                <dd class="dotdot">
+                                                    <span>
+                                                        이 페이지도 풀스크린 영역에 포함되어 있지만 우측에 따로 버튼을 생성하지는 않았습니다...이 페이지도 풀스크린 영역에 포함되어 있지만 우측에 따로 버튼을 생성하지는 않았습니다...이 페이지도 풀스크린 영역에 포함되어 있지만 우측에 따로 버튼을 생성하지는 않았습니다...이 페이지도 풀스크린 영역에 포함되어 있지만 우측에 따로 버튼을 생성하지는 않았습니다...
+                                                    </span>
+                                                </dd>
+                                            </dl>
+                                        </figcaption>
+                                    </figure>
+                                </li>
+                                <li class="slide_2">
+                                    <figure>
+                                        <img src="images/main_blog_thumb2.png" alt="blog">
+                                        <figcaption>
+                                            <dl>
+                                                <dt>#주요태그</dt>
+                                                <dd class="dotdot">
+                                                    <span>슬라이드에 이전/다음 버튼은 따로 없으며 클릭 후 드래그 하여 넘길 수 있게 해주세요!!슬라이드에 이전/다음 버튼은 따로 없으며 클릭 후 드래그 하여 넘길 수 있게 해주세요!!슬라이드에 이전/다음 버튼은 따로 없으며 클릭 후 드래그 하여 넘길 수 있게 해주세요!!슬라이드에 이전/다음 버튼은 따로 없으며 클릭 후 드래그 하여 넘길 수 있게 해주세요!!</span>
+                                                </dd>
+                                            </dl>
+                                        </figcaption>
+                                    </figure>
+                                </li>
+                                <li class="slide_3">
+                                    <figure>
+                                        <img src="images/main_blog_thumb3.png" alt="blog">
+                                        <figcaption>
+                                            <dl>
+                                                <dt>#주요태그</dt>
+                                                <dd class="dotdot">
+                                                    <span>위 풀페이지와 좌측 텍스트 마진이 다르게 설정되어 있습니다.위 풀페이지와 좌측 텍스트 마진이 다르게 설정되어 있습니다.위 풀페이지와 좌측 텍스트 마진이 다르게 설정되어 있습니다.</span>
+                                                </dd>
+                                            </dl>
+                                        </figcaption>
+                                    </figure>
+                                </li>
+                                <li class="slide_4">
+                                    <figure>
+                                        <img src="images/main_blog_thumb1.png" alt="blog">
+                                        <figcaption>
+                                            <dl>
+                                                <dt>#주요태그</dt>
+                                                <dd class="dotdot">
+                                                    <span>
+                                                        이 페이지도 풀스크린 영역에 포함되어 있지만 우측에 따로 버튼을 생성하지는 않았습니다...이 페이지도 풀스크린 영역에 포함되어 있지만 우측에 따로 버튼을 생성하지는 않았습니다...이 페이지도 풀스크린 영역에 포함되어 있지만 우측에 따로 버튼을 생성하지는 않았습니다...이 페이지도 풀스크린 영역에 포함되어 있지만 우측에 따로 버튼을 생성하지는 않았습니다...
+                                                    </span>
+                                                </dd>
+                                            </dl>
+                                        </figcaption>
+                                    </figure>
+                                </li>
+                                <li class="slide_5">
+                                    <figure>
+                                        <img src="images/main_blog_thumb2.png" alt="blog">
+                                        <figcaption>
+                                            <dl>
+                                                <dt>#주요태그</dt>
+                                                <dd class="dotdot">
+                                                    <span>슬라이드에 이전/다음 버튼은 따로 없으며 클릭 후 드래그 하여 넘길 수 있게 해주세요!!슬라이드에 이전/다음 버튼은 따로 없으며 클릭 후 드래그 하여 넘길 수 있게 해주세요!!슬라이드에 이전/다음 버튼은 따로 없으며 클릭 후 드래그 하여 넘길 수 있게 해주세요!!슬라이드에 이전/다음 버튼은 따로 없으며 클릭 후 드래그 하여 넘길 수 있게 해주세요!!</span>
+                                                </dd>
+                                            </dl>
+                                        </figcaption>
+                                    </figure>
+                                </li>
+                                <li class="slide_6">
+                                    <figure>
+                                        <img src="images/main_blog_thumb3.png" alt="blog">
+                                        <figcaption>
+                                            <dl>
+                                                <dt>#주요태그</dt>
+                                                <dd class="dotdot">
+                                                    <span>위 풀페이지와 좌측 텍스트 마진이 다르게 설정되어 있습니다.위 풀페이지와 좌측 텍스트 마진이 다르게 설정되어 있습니다.위 풀페이지와 좌측 텍스트 마진이 다르게 설정되어 있습니다.</span>
+                                                </dd>
+                                            </dl>
+                                        </figcaption>
+                                    </figure>
+                                </li>
+                            </ul>
+                            
+                        </div>
+
+                        <footer>
+                            <div>
+                                <div>
+                                    <div>
+                                        <img src="images/bmc_footer_logo.png" alt="footer logo">
+                                    </div>
+                                    <div>
+                                        <ul>
+                                            <li>
+                                                <p><strong>(주) 비엠씨</strong></p>
+                                            </li>
+                                            <li>
+                                                <p><strong>대표이사</strong>황선일</p>
+                                            </li>
+                                            <li>
+                                                <p><strong>개인정보담당자</strong>이창근</p>
+                                            </li>
+                                            <li>
+                                                <p><strong>사업자등록번호</strong>883-88-01284</p>
+                                            </li>
+                                        </ul>
+                                        <address>[21990] 인천 연수구 송도미래로 30, 송도스마트밸리 E동 1906호</address>
+                                        <div>
+                                            <p><strong>Email</strong><a href="mailto:admin@bmcnet.kr">admin@bmcnet.kr</a></p>
+                                            <p><strong>Tel</strong><a href="tel:+0328375388">032.837.5388</a></p>
+                                            <p><strong>Fax</strong>032.837.5387</p>
+                                        </div>
+                                        
+                                    </div>
+                                    <div>
+                                        <ul>
+                                            <li>
+                                                <a href=""></a>
+                                            </li>
+                                            <li>
+                                                <a href=""></a>
+                                            </li>
+                                            <li>
+                                                <a href=""></a>
+                                            </li>
+                                            <li>
+                                                <a href=""></a>
+                                            </li>
+                                        </ul>
+                                        <p>Copyright © BMC All rights reserved.</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </footer>
+                    </div>
+                </div>
+                
+            </div>
+        </div>
+
+    </div>
+    
+
+    <script type="text/javascript" src="dist/jquery.fullpage.min.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function() {
+            $('#fullpage').fullpage({
+                verticalCentered: true,
+            });
+        });
+    </script>
+
+
+    <script>
+        function scrollToTop() {
+            $.fn.fullpage.moveTo(1);
+        }
+    </script>
+</body>
+</html>
