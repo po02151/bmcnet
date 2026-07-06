@@ -470,76 +470,142 @@ function main_dotdotdot(){
 
 
 // -------------------------------풀페이지-----------------------------------
-function fullset(){
-	var pageindex = $("#fullpage > .fullsection").size(); //fullpage 안에 섹션이(.fullsection) 몇개인지 확인하기
-	for(var i=1;i<=pageindex;i++){
-		var li = "<li class=pageIndex" + i + "></li>"
-		$("#fullpage > .quick > ul").append(li);
-	}
-	$("#fullpage .quick ul :first-child").addClass("on"); //일단 화면이 로드 되었을때는 퀵버튼에 1번째에 불이 들어오게
-	
-	//마우스 휠 이벤트
-	$(window).bind("mousewheel", function(event){
-		var page = $(".quick ul li.on");
-		//alert(page.index()+1);  // 현재 on 되어있는 페이지 번호
-		if($("body").find("#fullpage:animated").length >= 1) return false;
-		//마우스 휠을 위로
-		if(event.originalEvent.wheelDelta >= 0) {
-			var before=page.index();
-			if(page.index() >= 0) page.prev().addClass("on").siblings(".on").removeClass("on");//퀵버튼옮기기
-			var pagelength=0;
-			for(var i=1; i<(before); i++)
-			{
-				pagelength += $(".full"+i).height();
-			}
-			if(page.index() > 0){ //첫번째 페이지가 아닐때 (index는 0부터 시작임)
-				page=page.index()-1;
-				$("#fullpage").animate({"top": -pagelength + "px"},1000, "swing");
-			}else{
-				// alert("첫번째 페이지 입니다.");
-			}	
-			showTopBtn();
-	
-		}else{ // 마우스 휠을 아래로	
-			var nextPage=parseInt(page.index()+1); //다음페이지번호
-			var lastPageNum=parseInt($(".quick ul li").size()); //마지막 페이지번호
-			//현재페이지번호 <= (마지막 페이지 번호 - 1)
-			//이럴때 퀵버튼옮기기
-			if(page.index() <= $(".quick ul li").size()-1){ 
-				page.next().addClass("on").siblings(".on").removeClass("on");
-			}
-			
-			if(nextPage < lastPageNum){ //마지막 페이지가 아닐때만 animate !
-				var pagelength=0;
-				for(var i = 1; i<(nextPage+1); i++){ 
-					//총 페이지 길이 구하기
-					//ex) 현재 1번페이지에서 2번페이지로 내려갈때는 1번페이지 길이 + 2번페이지 길이가 더해짐
-					pagelength += $(".full"+i).height();
-				}
-				$("#fullpage").animate({"top": -pagelength + "px"},1000, "swing");
-			}
-			else{ // 현재 마지막 페이지 일때는
-				// alert("마지막 페이지 입니다!");
-			};	
-			showTopBtn();
-	
-			
-		}
-	});
-	$(window).resize(function(){ 
-		//페이지가 100%이기때문에 브라우저가 resize 될때마다 스크롤 위치가 그대로 남아있는것을 방지하기 위해
-		var resizeindex = $(".quick ul li.on").index()+1;
-		
-		var pagelength=0;
-		for(var i = 1; i<resizeindex; i++){ 
-			//총 페이지 길이 구하기
-			//ex) 현재 1번페이지에서 2번페이지로 내려갈때는 1번페이지 길이 + 2번페이지 길이가 더해짐
-			pagelength += $(".full"+i).height();
-		}
 
-		$("#fullpage").animate({"top": -pagelength + "px"},0);
-	});
+function fullset(){
+    var pageindex = $("#fullpage > .fullsection").size(); // fullpage 안에 섹션이 몇개인지 확인하기
+    for(var i=1; i<=pageindex; i++){
+        var li = "<li class=pageIndex" + i + "></li>";
+        $("#fullpage > .quick > ul").append(li);
+    }
+    $("#fullpage .quick ul :first-child").addClass("on"); // 로드 시 1번째 버튼에 불 들어오게
+    
+    // -----------------------------------------------------------------
+    // [수정된 마우스 휠 이벤트] 콘솔 오류 원인을 해결한 코드입니다.
+    // -----------------------------------------------------------------
+    window.addEventListener("mousewheel", function(event){
+        // jQuery 호환성을 위해 이벤트 객체를 래핑합니다.
+        var jQueryEvent = $.Event("mousewheel", { originalEvent: event });
+        var page = $(".quick ul li.on");
+        
+        // 애니메이션 중일 때 휠 작동 막기
+        if($("body").find("#fullpage:animated").length >= 1) {
+            event.preventDefault(); // 브라우저 에러 없이 안전하게 스크롤을 방지합니다.
+            return false;
+        }
+        
+        // 마우스 휠을 위로
+        if(jQueryEvent.originalEvent.wheelDelta >= 0) {
+            var before = page.index();
+            if(page.index() >= 0) page.prev().addClass("on").siblings(".on").removeClass("on"); // 퀵버튼 옮기기
+            var pagelength = 0;
+            for(var i=1; i<(before); i++) {
+                pagelength += $(".full"+i).height();
+            }
+            if(page.index() > 0){ // 첫번째 페이지가 아닐 때
+                page = page.index()-1;
+                $("#fullpage").animate({"top": -pagelength + "px"}, 1000, "swing");
+            }
+            showTopBtn();
+    
+        } else { // 마우스 휠을 아래로    
+            var nextPage = parseInt(page.index()+1); // 다음 페이지 번호
+            var lastPageNum = parseInt($(".quick ul li").size()); // 마지막 페이지 번호
+            
+            if(page.index() <= $(".quick ul li").size()-1){ 
+                page.next().addClass("on").siblings(".on").removeClass("on");
+            }
+            
+            if(nextPage < lastPageNum){ // 마지막 페이지가 아닐 때만 animate
+                var pagelength = 0;
+                for(var i = 1; i<(nextPage+1); i++){ 
+                    pagelength += $(".full"+i).height();
+                }
+                $("#fullpage").animate({"top": -pagelength + "px"}, 1000, "swing");
+            }
+            showTopBtn();
+        }
+    }, { passive: false }); // 👈 이 옵션 덕분에 preventDefault()를 써도 에러가 나지 않습니다.
+    // -----------------------------------------------------------------
+
+    $(window).resize(function(){ 
+        var resizeindex = $(".quick ul li.on").index()+1;
+        var pagelength = 0;
+        for(var i = 1; i<resizeindex; i++){ 
+            pagelength += $(".full"+i).height();
+        }
+        $("#fullpage").animate({"top": -pagelength + "px"}, 0);
+    });
 }
+// function fullset(){
+// 	var pageindex = $("#fullpage > .fullsection").size(); //fullpage 안에 섹션이(.fullsection) 몇개인지 확인하기
+// 	for(var i=1;i<=pageindex;i++){
+// 		var li = "<li class=pageIndex" + i + "></li>"
+// 		$("#fullpage > .quick > ul").append(li);
+// 	}
+// 	$("#fullpage .quick ul :first-child").addClass("on"); //일단 화면이 로드 되었을때는 퀵버튼에 1번째에 불이 들어오게
+	
+// 	//마우스 휠 이벤트
+// 	$(window).bind("mousewheel", function(event){
+// 		var page = $(".quick ul li.on");
+// 		//alert(page.index()+1);  // 현재 on 되어있는 페이지 번호
+// 		if($("body").find("#fullpage:animated").length >= 1) return false;
+// 		//마우스 휠을 위로
+// 		if(event.originalEvent.wheelDelta >= 0) {
+// 			var before=page.index();
+// 			if(page.index() >= 0) page.prev().addClass("on").siblings(".on").removeClass("on");//퀵버튼옮기기
+// 			var pagelength=0;
+// 			for(var i=1; i<(before); i++)
+// 			{
+// 				pagelength += $(".full"+i).height();
+// 			}
+// 			if(page.index() > 0){ //첫번째 페이지가 아닐때 (index는 0부터 시작임)
+// 				page=page.index()-1;
+// 				$("#fullpage").animate({"top": -pagelength + "px"},1000, "swing");
+// 			}else{
+// 				// alert("첫번째 페이지 입니다.");
+// 			}	
+// 			showTopBtn();
+	
+// 		}else{ // 마우스 휠을 아래로	
+// 			var nextPage=parseInt(page.index()+1); //다음페이지번호
+// 			var lastPageNum=parseInt($(".quick ul li").size()); //마지막 페이지번호
+// 			//현재페이지번호 <= (마지막 페이지 번호 - 1)
+// 			//이럴때 퀵버튼옮기기
+// 			if(page.index() <= $(".quick ul li").size()-1){ 
+// 				page.next().addClass("on").siblings(".on").removeClass("on");
+// 			}
+			
+// 			if(nextPage < lastPageNum){ //마지막 페이지가 아닐때만 animate !
+// 				var pagelength=0;
+// 				for(var i = 1; i<(nextPage+1); i++){ 
+// 					//총 페이지 길이 구하기
+// 					//ex) 현재 1번페이지에서 2번페이지로 내려갈때는 1번페이지 길이 + 2번페이지 길이가 더해짐
+// 					pagelength += $(".full"+i).height();
+// 				}
+// 				$("#fullpage").animate({"top": -pagelength + "px"},1000, "swing");
+// 			}
+// 			else{ // 현재 마지막 페이지 일때는
+// 				// alert("마지막 페이지 입니다!");
+// 			};	
+// 			showTopBtn();
+	
+			
+// 		}
+// 	});
+// 	$(window).resize(function(){ 
+// 		//페이지가 100%이기때문에 브라우저가 resize 될때마다 스크롤 위치가 그대로 남아있는것을 방지하기 위해
+// 		var resizeindex = $(".quick ul li.on").index()+1;
+		
+// 		var pagelength=0;
+// 		for(var i = 1; i<resizeindex; i++){ 
+// 			//총 페이지 길이 구하기
+// 			//ex) 현재 1번페이지에서 2번페이지로 내려갈때는 1번페이지 길이 + 2번페이지 길이가 더해짐
+// 			pagelength += $(".full"+i).height();
+// 		}
+
+// 		$("#fullpage").animate({"top": -pagelength + "px"},0);
+// 	});
+// }
 // 사이드 퀵버튼 클릭 이동
 function quickClick(){
 	$(".quick li").click(function(){
