@@ -3,9 +3,13 @@ $(document).ready(function(){
 	opacity_box();
 	// wow플러그인
 	
-	fullset();
-	quickClick();
-	// 풀페이지
+	// fullset();
+	// quickClick();
+	if ($('#fullpage').length > 0) {
+        fullset();
+        quickClick();
+    }
+	// 풀페이지 (메인페이지일때만 실행)
 	
 	scrollDown();
 	// 메인페이지 첫번째 섹션에서 두번째 섹션으로 스크롤 다운 버튼
